@@ -1,0 +1,58 @@
+App\Entity\Category:
+    category_{1..30}:
+        name: '<categoryName()>'
+        createdAt: '<dateTimeBetween("-50 days", "now")>'
+
+App\Entity\Product:
+    product_{1..200}:
+        name: '<productName()>'
+        price: '<numberBetween(0, 30)>'
+        description: '<fr_FR:text(20)>'
+        unit: '<unitName()>'
+        stock: '<numberBetween(0, 1000)>'
+        createdAt: '<dateTimeBetween("-50 days", "now")>'
+        category: '@category_*'
+        shop: '@shop_*'
+        image: '<imageUrl(100, 100)>'
+
+App\Entity\User:
+    user_{1..30}:
+        firstname: '<fr_FR:firstName()>'
+        lastname: '<fr_FR:lastName()>'
+        email: '<fr_FR:email()>'
+        password: '<password()>'
+        description: '<fr_FR:text(20)>'
+        number: '<numberBetween(0, 1000)>'
+        street: '<fr_FR:streetName()>'
+        zip: '<numberBetween(10000, 99999)>'
+        city: '<fr_FR:city()>'
+        createdAt: '<dateTimeBetween("-50 days", "now")>'
+        phone: '<numberBetween(0100000000, 0700000000)>'
+        isShop: false
+
+App\Entity\Cart:
+    cart_{1..30}:
+        quantity: '<numberBetween(1, 5)>'
+        user: '@user_*'
+        product: '@product_*'
+
+App\Entity\Shop:
+    shop_{1..100}:
+        name: '<fr_FR:firstName()> <fr_FR:lastName()>'
+        email: '<fr_FR:email()>'
+        password: '<password()>'
+        description: '<fr_FR:text(20)>'
+        number: '<numberBetween(0, 1000)>'
+        street: '<fr_FR:streetName()>'
+        zip: '<numberBetween(10000, 99999)>'
+        city: '<fr_FR:city()>'
+        createdAt: '<dateTimeBetween("-50 days", "now")>'
+        phone: '<numberBetween(0100000000, 0700000000)>'
+        rate: '<numberBetween(1, 5)>'
+        job: '<jobName()>'
+        image: '<imageUrl(100, 100)>'
+        isShop: true
+
+      
+
+

@@ -1,0 +1,17 @@
+{
+    "name": "mint/projet-local-drive",
+    "authors": [
+        {
+            "name": "rplip",
+            "email": "romfum@gmail.com"
+        }
+    ],
+    "require": {
+        "symfony/orm-pack": "^1.0",
+        "symfony/apache-pack": "^1.0"
+    },
+    "require-dev": {
+        "symfony/maker-bundle": "^1.14",
+        "symfony/profiler-pack": "^1.0"
+    }
+}

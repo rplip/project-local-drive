@@ -1,0 +1,85 @@
+easy_admin:
+    site_name: 'Local-drive'
+    entities:
+        Category:
+            class: App\Entity\Category
+            list:
+                fields:
+                    - id
+                    - name
+                    - products
+            edit:
+                fields:
+                    - name
+                    - image
+        Product:
+            class: App\Entity\Product
+            list:
+                fields:
+                    - id
+                    - name
+                    - price
+                    - unit
+                    - stock
+                    - sale
+                    - shop.name
+                    - category
+            edit:
+                fields:
+                    - name
+                    - price
+                    - unit
+                    - stock
+                    - sale
+                    - description
+                    - image
+                    - category
+        Shop:
+            class: App\Entity\Shop
+            list:
+                fields: 
+                    - id
+                    - name
+                    - job
+                    - email
+                    - phone
+                    - number
+                    - street
+                    - zip
+                    - city
+            edit:
+                fields:
+                    - name
+                    - job
+                    - isShop
+                    - email
+                    - password
+                    - phone
+                    - number
+                    - street
+                    - zip
+                    - city
+                    - image
+                    - description
+        User:
+            class: App\Entity\User
+            list:
+                fields: 
+                    - id
+                    - firstname
+                    - lastname
+                    - email
+                    - phone
+                    - number
+                    - street
+                    - zip
+                    - city
+            edit:
+                fields:
+                    - firstname
+                    - lastname
+                    - phone
+                    - number
+                    - street
+                    - zip
+                    - city

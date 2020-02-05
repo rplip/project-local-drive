@@ -1,0 +1,131 @@
+parameters:
+    upload_image_product: '%kernel.project_dir%/public/images/products'
+    upload_image_shop: '%kernel.project_dir%/public/images/shops'
+    upload_image_user: '%kernel.project_dir%/public/images/users'
+
+security:
+    encoders:
+        App\Entity\User:
+            algorithm: auto
+        App\Entity\Shop:
+            algorithm: auto
+
+
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    providers:
+        in_user:
+            entity:
+                class: App\Entity\User
+                property: email
+        in_shop:
+            entity:
+                class: App\Entity\Shop
+                property: email
+        app_user_provider:
+            chain:
+                providers: ['in_user', 'in_shop']
+        # used to reload user from session & other features (e.g. switch_user)
+        # used to reload user from session & other features (e.g. switch_user)
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        login:
+            pattern:  ^/api/v1/login
+            stateless: true
+            anonymous: true
+            provider: 'app_user_provider'
+            json_login:
+                check_path:               /api/v1/login_check
+                success_handler:          lexik_jwt_authentication.handler.authentication_success
+                failure_handler:          lexik_jwt_authentication.handler.authentication_failure
+        add:
+            pattern: .*?/add
+            stateless: true
+            provider: 'in_shop'
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
+        update:
+            pattern: .*?/update
+            stateless: true
+            provider: 'app_user_provider'
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
+        delete:
+            pattern: .*?/delete
+            stateless: true
+            provider: 'in_shop'
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
+        user:
+            pattern: .*?/user
+            stateless: true
+            provider: 'app_user_provider'
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
+        upload:
+            pattern: .*?/upload-image
+            stateless: true
+            provider: 'app_user_provider'
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
+        register:
+            pattern:  ^/register
+            stateless: true
+            anonymous: true
+        loginAdmin:
+            anonymous: true
+            provider: 'app_user_provider'
+            json_login:
+                check_path: /login
+            guard:
+                authenticators:
+                    - App\Security\Authenticator
+            logout:
+                path: app_logout
+            switch_user: true
+        admin:
+            pattern: /admin
+            provider: 'app_user_provider'
+            guard:
+                authenticators:
+                    - App\Security\Authenticator
+
+        #main:
+            #provider: 'app_user_provider'
+            #json_login:
+                #check_path: /api/v1/login
+            #guard:
+                #authenticators:
+                    #- App\Security\Authenticator
+            #logout:
+                #path: app_logout
+                # where to redirect after logout
+                # target: app_any_route
+            # activate different ways to authenticate
+            # https://symfony.com/doc/current/security.html#firewalls-authentication
+            # https://symfony.com/doc/current/security/impersonating_user.html
+            # switch_user: true
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        #- { path: ^/api/v1/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        #- { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        #- { path: ^/api/,       roles: IS_AUTHENTICATED_FULLY }
+        # - { path: ^/profile, roles: ROLE_USER }
+
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_USER, ROLE_SHOP
+        ROLE_SHOP: ROLE_USER
+
+
+
+
+
